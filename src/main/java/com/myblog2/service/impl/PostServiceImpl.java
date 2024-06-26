@@ -1,6 +1,7 @@
 package com.myblog2.service.impl;
 
 import com.myblog2.entity.Post;
+import com.myblog2.exception.ResourceNotFound;
 import com.myblog2.payload.PostDto;
 import com.myblog2.repository.PostRepository;
 import com.myblog2.service.PostService;
@@ -41,6 +42,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePostById(int postId) {
+        postRepository.findById((long)postId).orElseThrow(
+                () -> new ResourceNotFound("Post not found with id: "+postId)
+        );
+
+
         postRepository.deleteById((long)postId);
 
     }
